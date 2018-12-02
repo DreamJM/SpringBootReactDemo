@@ -1,0 +1,51 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.0.RELEASE'
+    }
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.dream.demo'
+version = '0.0.1'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    jcenter()
+}
+
+dependencies {
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+}
+
+task npmBuild(type: Exec) {
+    workingDir = file(NODE_PROJ_DIR)
+    commandLine NODE_MANAGER, "run", "build"
+}
+
+task npmInstall(type: Exec) {
+    workingDir = file(NODE_PROJ_DIR)
+    commandLine NODE_MANAGER, "install"
+}
+
+task frontendAssemble(type: Copy, dependsOn: "npmBuild") {
+    def buildDir = file("$NODE_PROJ_DIR/build")
+    from buildDir
+    into "build/resources/main/static"
+}
+
+processResources.dependsOn 'frontendAssemble'
+
+if (project.hasProperty("node.install")) {
+    npmBuild.dependsOn 'npmInstall'
+}
