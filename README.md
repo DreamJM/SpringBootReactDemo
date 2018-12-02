@@ -38,7 +38,7 @@ NODE_MANAGER=yarn
 
 ### Maven User
 ```
-mvn pacakge
+mvn package
 ```
 During Maven 'Compile' phase, ReactJS App(frontend) will be compiled. During 'prepare-package' phase, ReactJS App resources will be copied into spring boot resource directory, and finally be packaged into Spring Boot application.
 <p>
