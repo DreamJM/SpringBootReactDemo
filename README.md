@@ -45,7 +45,7 @@ During Maven 'Compile' phase, ReactJS App(frontend) will be compiled. During 'pr
 if "install" command is needed for frontend before 'compile', you can use the following parameter.
 
 ```
-gradle build -Dnode.install
+mvn package -Dnode.install
 ```
 </p>
 
